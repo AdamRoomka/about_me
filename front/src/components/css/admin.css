@@ -1,0 +1,7 @@
+.hover_orange{
+    color: black;
+    text-decoration: none;
+}
+.hover_orange:hover{
+    color: #d6a549;
+}

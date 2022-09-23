@@ -1,0 +1,51 @@
+[
+    {
+        "personal_information":{
+            "name_and_surname": "Adam Romaševski (Romaszewski)",
+            "birth_date": "2002-02-24",
+            "place_of_residence": "Vilnius",
+            "phone_number": "+37068321665",
+            "email": "adam.romas12@gmail.com",
+            "linkedin":"https://www.linkedin.com/in/adam-romaszewski/"
+        },
+        "technical_skills":{
+            "tools": "Visual Studio Code, Postman",
+            "Programming_languagesAndSkills": "JavaScript (ReactJS), Node.js,  HTML5, TypeScript, teamwork, MySQL, Jira, Scrum, Git, GitHub"
+        },
+        "working_experience":[
+            {
+                "id": 0,
+                "date":"2022.06 – 2022.07",
+                "company": "WOJS",
+                "company_website":"http://wojs-przeprowadzki.pl/",
+                "position":"JavaScript, TypeScript programmer",
+                "title":"I had an apprenticeship as a website styler with styled components. My task was to style as stated in the graphics (adobe.com) for all resolutions. At this work, I learned how typescript works and what other styles are there."
+            }
+        ],
+        "education":[
+            {
+                "id": 0,
+                "date":"2020-2021",
+                "name":"Vilniaus Adomo Mickevičiaus Licėjus, secondary education",
+                "link":"https://www.liceum.lt/"
+            },
+            {
+                "id": 1,
+                "date":"2021-2022",
+                "name":"Vilniaus Technologiju Mokymo Centras, Junior Programmer",
+                "link":"https://www.vtmc.lt/"
+            }
+        ],
+        "additional_information":{
+            "languages":{
+                    "polish":"Poland - native",
+                    "lithuanian":"Lithuanian - proficient user",
+                    "english":"English - B2",
+                    "russian":"Russian - C1"
+                },
+            "personal_characteristics":"I am an energetic, favourable and who loves to program person. I graduated from a vocational school in programming (full-stack developer).",
+            "driver_license":"B",
+            "hobbies":"Chess, checkers, computer games, volleyball, playing guitar"
+        }
+    }
+]
