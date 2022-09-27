@@ -121,7 +121,6 @@ exports.loginUser = async (req, res) => {
       code: "NAME_OR_PASSWORD_NOT_DEFINED",
       message: "name or password not defined",
     });
-    console.log("Name or password not defined");
     return;
   }
 
@@ -133,7 +132,6 @@ exports.loginUser = async (req, res) => {
       code: "LOGIN_DO_NOT_EXISTS",
       message: "login do not exists",
     });
-    console.log("Login do not exists");
     return;
   }
   user = user[0];
@@ -154,7 +152,6 @@ exports.loginUser = async (req, res) => {
       status: "fail",
       code: "INVALID_PASSWORD",
     });
-    console.log("Invalid password");
     return;
   }
   res.status(200).json({
@@ -309,8 +306,6 @@ exports.findItemAndDelete = async (req, res) => {
 };
 
 exports.updateUser = async (req, res) => {
-  console.log(req.params.id);
-  console.log(req.body);
   try {
     const user = await Users.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -428,7 +423,6 @@ exports.protect = async (req, res, next) => {
 
   // 2) Verification token
   const decoded = await promisify(jwt.verify)(token, "labas");
-  console.log(decoded);
 
   // 3) Check if user still exists
   const currentUser = await Users.findById(decoded.id);
