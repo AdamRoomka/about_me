@@ -9,6 +9,8 @@ import {
 import { Link } from "react-router-dom";
 import Table from "./my_abilities/Table";
 import CreateItems from "./my_abilities/CreateItems";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Dropdown from "react-bootstrap/Dropdown";
 import "./css/table.css";
 import EditTable from "./my_abilities/EditTable";
 
@@ -123,6 +125,33 @@ function My_abilities({ render, setRender, currentUser }) {
               My CV
             </Link>
           </li>
+          {currentUser.role === "admin" ? (
+            <li>
+              <Dropdown as={ButtonGroup}>
+                <Link to="/admin" className="none me-1 my-0 pb-2">
+                  Admin
+                </Link>
+                <Dropdown.Toggle
+                  split
+                  variant="none"
+                  className="none me-3 pb-2"
+                />
+                <Dropdown.Menu>
+                  <Link className="none p-3 fs-5" to="/admin/categories">
+                    Categories
+                  </Link>
+                  <Link className="none p-3 fs-5" to="/admin/history">
+                    History
+                  </Link>
+                  <Link className="none p-3 fs-5" to="/admin/users">
+                    Users
+                  </Link>
+                </Dropdown.Menu>
+              </Dropdown>
+            </li>
+          ) : (
+            ""
+          )}
           {currentUser.role === undefined ? (
             <>
               <li>
@@ -143,15 +172,6 @@ function My_abilities({ render, setRender, currentUser }) {
                   Log Out
                 </Link>
               </li>
-              {currentUser.role === "admin" ? (
-                <li>
-                  <Link to="/admin" className="none">
-                    Admin
-                  </Link>
-                </li>
-              ) : (
-                ""
-              )}
             </>
           )}
         </ul>

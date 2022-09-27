@@ -1,12 +1,13 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { doLogin } from "../../api/lib/UsersApi";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Dropdown from "react-bootstrap/Dropdown";
 import swal from "sweetalert";
 import "./auth.css";
 
 function Login() {
-
   const {
     register,
     handleSubmit,
@@ -41,60 +42,88 @@ function Login() {
 
   return (
     <>
-    <Link to="/">Go back</Link>
-    <form id="msform" onSubmit={handleSubmit(onSubmit)}>
-      <fieldset>
-        <h2 className="fs-title">Log in</h2>
-        <br />
-        <input
-          type="email"
-          className="home-input"
-          id="email"
-          placeholder="Email"
-          {...register("email", {
-            required: "email is obligatory",
-            maxLength: {
-              value: 30,
-              message: "No more than 50 symbols",
-            },
-          })}
-        />
-        <div className="error text-danger fw-light m-2">
-          {errors.login?.message}
-        </div>
-        <input
-          className="home-input"
-          type="password"
-          name="password"
-          placeholder="password"
-          {...register("password", {
-            required: "Hasło obowiązkowe",
-            minLength: {
-              value: 7,
-              message: "Hasło musi zawierać co najmniej 7 symbol",
-            },
-            maxLength: {
-              value: 50,
-              message: "Nie więcej niż 50 symbolów",
-            },
-          })}
-        />
-        <div className="error text-danger fw-light m-2">
-          {errors.password?.message}
-        </div>
-        <button
-          type="submit"
-          name="next"
-          className="next action-button"
-          value="Next"
-        >
-          Log in
-        </button>
-        <Link to="/signup" name="next" className="ms-4" value="Next">
-          Register
-        </Link>
-      </fieldset>
-    </form>
+      <nav className="menu p-4">
+        <ul className="d-flex justify-content-end fs-4">
+          <li>
+            <Link className="none" to="/">
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link className="none" to="/my_abilities">
+              My abilities
+            </Link>
+          </li>
+          <li>
+            <Link className="none" to="/my_cv">
+              My CV
+            </Link>
+          </li>
+          <li>
+            <Link className="none" to="/signup">
+              Register
+            </Link>
+          </li>
+          <li>
+            <Link className="none" to="/login">
+              Login
+            </Link>
+          </li>
+        </ul>
+      </nav>
+      <form id="msform" onSubmit={handleSubmit(onSubmit)}>
+        <fieldset>
+          <h2 className="fs-title">Log in</h2>
+          <br />
+          <input
+            type="email"
+            className="home-input"
+            id="email"
+            placeholder="Email"
+            {...register("email", {
+              required: "email is obligatory",
+              maxLength: {
+                value: 30,
+                message: "No more than 50 symbols",
+              },
+            })}
+          />
+          <div className="error text-danger fw-light m-2">
+            {errors.login?.message}
+          </div>
+          <input
+            className="home-input"
+            type="password"
+            name="password"
+            placeholder="password"
+            {...register("password", {
+              required: "Hasło obowiązkowe",
+              minLength: {
+                value: 7,
+                message: "Hasło musi zawierać co najmniej 7 symbol",
+              },
+              maxLength: {
+                value: 50,
+                message: "Nie więcej niż 50 symbolów",
+              },
+            })}
+          />
+          <div className="error text-danger fw-light m-2">
+            {errors.password?.message}
+          </div>
+          <button
+            type="submit"
+            name="next"
+            className="next action-button"
+            value="Next"
+          >
+            Log in
+          </button>
+          <Link to="/signup" name="next" className="ms-4" value="Next">
+            Register
+          </Link>
+        </fieldset>
+      </form>
     </>
   );
 }

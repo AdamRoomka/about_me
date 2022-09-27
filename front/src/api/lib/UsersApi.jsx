@@ -24,7 +24,7 @@ export async function findUserAndDelete(token, userId) {
     }).patch(`/${userId}`)
     return res;
 }
-export async function findUserAndUpdatePassword(token, userId) {
+export async function findUserAndUpdatePassword(token, userId, data) {
     const res = await axios.create({
         baseURL: "http://localhost:4000/api/v1/auth/updateUserPassword",
         headers: {
@@ -32,7 +32,7 @@ export async function findUserAndUpdatePassword(token, userId) {
             "Content-Type": "application/json",
             Authorization: `Bearer: ${token}`,
         },
-    }).patch(`/${userId}`)
+    }).patch(`/${userId}`, JSON.stringify(data))
     return res;
 }
 
@@ -96,6 +96,4 @@ export async function decodeToken(token) {
 
 export const createUser = (data) => axiosUsers.post('/auth/register/', JSON.stringify(data));
 export const doLogin = (data) => axiosUsers.post('/auth/login/', JSON.stringify(data));
-
-// export const createUserItems = (data) => axiosUsers.patch('/auth/items/', JSON.stringify(data));
 

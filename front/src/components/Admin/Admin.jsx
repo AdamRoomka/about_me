@@ -2,6 +2,8 @@ import React from "react";
 import { useEffect } from "react";
 import { decodeToken } from "../../api/lib/UsersApi";
 import { Link } from "react-router-dom";
+import Dropdown from "react-bootstrap/Dropdown";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
 
 function Admin({ currentUser, setcurrentUser, setRender }) {
   useEffect(() => {
@@ -59,41 +61,41 @@ function Admin({ currentUser, setcurrentUser, setRender }) {
                 </Link>
               </li>
               <li>
-                <Link className="none" to="/admin/categories">
-                  Categories
+                <Link className="none" to="/my_abilities">
+                  My abilities
                 </Link>
               </li>
               <li>
-                <Link className="none" to="/admin/history">
-                  History
+                <Link className="none" to="/my_cv">
+                  My CV
                 </Link>
               </li>
-              <li>
-                <Link className="none" to="/admin/users">
-                  Users
-                </Link>
-              </li>
-              {currentUser.role === undefined ? (
-                <>
-                  <li>
-                    <Link className="none" to="/signup">
-                      Register
+              {currentUser.role === "admin" ? (
+                <li>
+                  <Dropdown as={ButtonGroup}>
+                    <Link to="/admin" className="none me-1 my-0 pb-2">
+                      Admin
                     </Link>
-                  </li>
-                  <li>
-                    <Link className="none" to="/login">
-                      Login
-                    </Link>
-                  </li>
-                </>
+                    <Dropdown.Toggle
+                      split
+                      variant="none"
+                      className="none me-3 pb-2"
+                    />
+                    <Dropdown.Menu>
+                      <Link className="none p-3 fs-5" to="/admin/categories">
+                        Categories
+                      </Link>
+                      <Link className="none p-3 fs-5" to="/admin/history">
+                        History
+                      </Link>
+                      <Link className="none p-3 fs-5" to="/admin/users">
+                        Users
+                      </Link>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </li>
               ) : (
-                <>
-                  <li>
-                    <Link to="/" className="none" onClick={logOut}>
-                      Log Out
-                    </Link>
-                  </li>
-                </>
+                ""
               )}
             </ul>
           </nav>

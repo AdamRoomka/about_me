@@ -121,7 +121,6 @@ exports.loginUser = async (req, res) => {
       code: "NAME_OR_PASSWORD_NOT_DEFINED",
       message: "name or password not defined",
     });
-    console.log("Name or password not defined");
     return;
   }
 
@@ -133,7 +132,6 @@ exports.loginUser = async (req, res) => {
       code: "LOGIN_DO_NOT_EXISTS",
       message: "login do not exists",
     });
-    console.log("Login do not exists");
     return;
   }
   user = user[0];
@@ -149,14 +147,11 @@ exports.loginUser = async (req, res) => {
   const validPassword = await bcrypt.compare(req.body.password, user.password);
 
   if (!validPassword) {
-    res
-      .status(400)
-      .json({
-        message: "Invalid Password",
-        status: "fail",
-        code: "INVALID_PASSWORD",
-      });
-    console.log("Invalid password");
+    res.status(400).json({
+      message: "Invalid Password",
+      status: "fail",
+      code: "INVALID_PASSWORD",
+    });
     return;
   }
   res.status(200).json({
@@ -311,8 +306,6 @@ exports.findItemAndDelete = async (req, res) => {
 };
 
 exports.updateUser = async (req, res) => {
-  console.log(req.params.id);
-  console.log(req.body);
   try {
     const user = await Users.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -373,14 +366,15 @@ exports.findUserAndUpdatePassword = async (req, res) => {
   const token = req.header("authorization").split(" ")[1];
   const decoded = jwt.decode(token);
   try {
-    await Users.findOneAndUpdate(
-      { _id: req.params._id },
-      {
-        $set: {
-          password: req.body.password,
-        },
-      }
-    ).select("name email -_id");
+    var pass = (req.body.password = await bcrypt.hash(req.body.password, 10));
+      await Users.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          $set: {
+            password: pass,
+          },
+        }
+      ).select("name email -_id");
 
     jwt.verify(token, "hey", function (err, authData) {
       if (authData === undefined) {
@@ -429,7 +423,6 @@ exports.protect = async (req, res, next) => {
 
   // 2) Verification token
   const decoded = await promisify(jwt.verify)(token, "labas");
-  console.log(decoded);
 
   // 3) Check if user still exists
   const currentUser = await Users.findById(decoded.id);
