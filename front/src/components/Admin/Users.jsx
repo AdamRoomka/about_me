@@ -4,13 +4,17 @@ import { Link } from "react-router-dom";
 import {
   getAllUsers,
   findUserAndDelete,
-  findUserAndUpdatePassword,
   decodeToken,
 } from "../../api/lib/UsersApi";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Dropdown from "react-bootstrap/Dropdown";
 import CurrentUser from "./User/CurrentUser";
+import PasswordType from "./User/PasswordType";
 
 function Users({ setcurrentUser, currentUser, setRender, render }) {
   const [allUsers, setAllUsers] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [id, setId] = useState(false);
   useEffect(() => {
     var user = null;
     if (typeof window !== "undefined") {
@@ -68,30 +72,11 @@ function Users({ setcurrentUser, currentUser, setRender, render }) {
     setRender(!render);
   }
   function changePassword(e, userId) {
-    e.preventDefault();
-    let user = getCookie("c_user");
-    function getCookie(c_user) {
-      let user = c_user + "=";
-      let decodedCookie = decodeURIComponent(document.cookie);
-      let ca = decodedCookie.split(";");
-      for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) === " ") {
-          c = c.substring(1);
-        }
-        if (c.indexOf(user) === 0) {
-          return c.substring(user.length, c.length);
-        }
-      }
-      return "";
-    }
-    findUserAndUpdatePassword(user, userId);
-    setRender(!render);
+    setOpen(true);
+    setId(userId);
   }
-  function logOut() {
-    document.cookie = `c_user=`;
-    window.location("/");
-    setRender(true);
+  function close() {
+    setOpen(false);
   }
   return (
     <>
@@ -121,43 +106,57 @@ function Users({ setcurrentUser, currentUser, setRender, render }) {
                     </Link>
                   </li>
                   <li>
-                    <Link className="none" to="/admin/categories">
-                      Categories
+                    <Link className="none" to="/my_abilities">
+                      My abilities
                     </Link>
                   </li>
                   <li>
-                    <Link className="none" to="/admin/history">
-                      History
+                    <Link className="none" to="/my_cv">
+                      My CV
                     </Link>
                   </li>
-                  <li>
-                    <Link className="none" to="/admin/users">
-                      Users
-                    </Link>
-                  </li>
-                  {currentUser.role === undefined ? (
-                    <>
-                      <li>
-                        <Link className="none" to="/signup">
-                          Register
+                  {currentUser.role === "admin" ? (
+                    <li>
+                      <Dropdown as={ButtonGroup}>
+                        <Link to="/admin" className="none me-1 my-0 pb-2">
+                          Admin
                         </Link>
-                      </li>
-                      <li>
-                        <Link className="none" to="/login">
-                          Login
-                        </Link>
-                      </li>
-                    </>
+                        <Dropdown.Toggle
+                          split
+                          variant="none"
+                          className="none me-3 pb-2"
+                        />
+                        <Dropdown.Menu>
+                          <Link
+                            className="none p-3 fs-5"
+                            to="/admin/categories"
+                          >
+                            Categories
+                          </Link>
+                          <Link className="none p-3 fs-5" to="/admin/history">
+                            History
+                          </Link>
+                          <Link className="none p-3 fs-5" to="/admin/users">
+                            Users
+                          </Link>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </li>
                   ) : (
-                    <>
-                      <li>
-                        <Link to="/" className="none" onClick={logOut}>
-                          Log Out
-                        </Link>
-                      </li>
-                    </>
+                    ""
                   )}
                 </ul>
+                <div className="text-end">
+                  <Link className="none p-3 fs-5" to="/admin/categories">
+                    Categories
+                  </Link>
+                  <Link className="none p-3 fs-5" to="/admin/history">
+                    History
+                  </Link>
+                  <Link className="none p-3 fs-5" to="/admin/users">
+                    Users
+                  </Link>
+                </div>
               </nav>
             </div>
           )}
@@ -183,6 +182,14 @@ function Users({ setcurrentUser, currentUser, setRender, render }) {
               ))}
             </tbody>
           </table>
+          {open && (
+            <PasswordType
+              userId={id}
+              setRender={setRender}
+              render={render}
+              closeSetPass={close}
+            />
+          )}
         </>
       )}
     </>

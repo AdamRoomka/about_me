@@ -149,13 +149,11 @@ exports.loginUser = async (req, res) => {
   const validPassword = await bcrypt.compare(req.body.password, user.password);
 
   if (!validPassword) {
-    res
-      .status(400)
-      .json({
-        message: "Invalid Password",
-        status: "fail",
-        code: "INVALID_PASSWORD",
-      });
+    res.status(400).json({
+      message: "Invalid Password",
+      status: "fail",
+      code: "INVALID_PASSWORD",
+    });
     console.log("Invalid password");
     return;
   }
@@ -373,14 +371,15 @@ exports.findUserAndUpdatePassword = async (req, res) => {
   const token = req.header("authorization").split(" ")[1];
   const decoded = jwt.decode(token);
   try {
-    await Users.findOneAndUpdate(
-      { _id: req.params._id },
-      {
-        $set: {
-          password: req.body.password,
-        },
-      }
-    ).select("name email -_id");
+    var pass = (req.body.password = await bcrypt.hash(req.body.password, 10));
+      await Users.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          $set: {
+            password: pass,
+          },
+        }
+      ).select("name email -_id");
 
     jwt.verify(token, "hey", function (err, authData) {
       if (authData === undefined) {

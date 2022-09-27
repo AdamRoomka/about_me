@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { decodeToken } from "../api/lib/UsersApi";
 import { Link } from "react-router-dom";
 import laptop from "./IMG/laptop.jpg";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Dropdown from "react-bootstrap/Dropdown";
 import "./css/main.css";
 import "./css/bootstrap.css";
 import "./css/nav.css";
@@ -42,7 +44,7 @@ function Home({ currentUser, setcurrentUser, render, setRender }) {
   }, [render]);
 
   function logOut() {
-    document.cookie = `c_user=`;
+    document.cookie = `c_user=; path=/;`;
     window.location("/");
     setRender(true);
   }
@@ -51,6 +53,11 @@ function Home({ currentUser, setcurrentUser, render, setRender }) {
     <>
       <nav className="menu p-4">
         <ul className="d-flex justify-content-end fs-4">
+          <li>
+            <Link className="none" to="/">
+              Home
+            </Link>
+          </li>
           <li>
             <Link className="none" to="/my_abilities">
               My abilities
@@ -61,6 +68,33 @@ function Home({ currentUser, setcurrentUser, render, setRender }) {
               My CV
             </Link>
           </li>
+          {currentUser.role === "admin" ? (
+            <li>
+              <Dropdown as={ButtonGroup}>
+                <Link to="/admin" className="none me-1 my-0 pb-2">
+                  Admin
+                </Link>
+                <Dropdown.Toggle
+                  split
+                  variant="none"
+                  className="none me-3 pb-2"
+                />
+                <Dropdown.Menu>
+                  <Link className="none p-3 fs-5" to="/admin/categories">
+                    Categories
+                  </Link>
+                  <Link className="none p-3 fs-5" to="/admin/history">
+                    History
+                  </Link>
+                  <Link className="none p-3 fs-5" to="/admin/users">
+                    Users
+                  </Link>
+                </Dropdown.Menu>
+              </Dropdown>
+            </li>
+          ) : (
+            ""
+          )}
           {currentUser.role === undefined ? (
             <>
               <li>
@@ -81,21 +115,12 @@ function Home({ currentUser, setcurrentUser, render, setRender }) {
                   Log Out
                 </Link>
               </li>
-              {currentUser.role === "admin" ? (
-                <li>
-                  <Link to="/admin" className="none">
-                    Admin
-                  </Link>
-                </li>
-              ) : (
-                ""
-              )}
             </>
           )}
         </ul>
       </nav>
 
-      <div className="container-fluid p-5">
+      <div className="container-fluid p-5 pt-4">
         <div className="row">
           <div className="col-6 p-0">
             <img src={laptop} alt="laptop" className="main_img" />
