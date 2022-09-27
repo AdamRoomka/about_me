@@ -37,11 +37,6 @@ function Admin({ currentUser, setcurrentUser, setRender }) {
       });
     }
   }, []);
-  function logOut() {
-    document.cookie = `c_user=`;
-    window.location("/");
-    setRender(true);
-  }
   return (
     <>
       {currentUser && currentUser.role !== "admin" ? (
